@@ -25,4 +25,16 @@ public class Service {
     public Optional<Person> getPersonByNameAndSurname(String name, String surname) {
         return repository.findByNameAndSurname(name, surname);
     }
+
+    public Person save(Person person) {
+        return repository.save(person);
+    }
+
+    public Long count() {
+        return repository.count();
+    }
+
+    public void deleteAllPersons(List<Person> personList) {
+        repository.deleteAll(personList);
+    }
 }
