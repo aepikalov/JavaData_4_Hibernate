@@ -3,12 +3,14 @@ package ru.netology.javadata_4_hibernate.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder encoder() {
@@ -20,11 +22,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("Artem")
                 .password(encoder().encode("password"))
-                .authorities("read", "write")
+                .roles("READ", "WRITE", "DELETE")
                 .and()
                 .withUser("Petr")
                 .password("{noop}password2")
-                .authorities("read");
+                .roles("READ")
+                .and()
+                .withUser("Ivan").password(encoder().encode("password3"))
+                .roles("WRITE");
     }
 
     @Override
